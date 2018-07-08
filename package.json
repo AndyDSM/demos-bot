@@ -1,0 +1,22 @@
+{
+    "name": "botsofast",
+    "version": "0.0.0",
+    "description": "NotSoBot got deleted so I'm ripping off the fame",
+    "main": "src/bot.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node bot.js"
+    },
+    "keywords": [
+        "who",
+        "cares"
+    ],
+    "author": "Andyboi",
+    "license": "ISC",
+    "dependencies": {
+        "discord.js": "^11.3.2",
+        "express": "^4.16.3",
+        "mongoose": "^5.0.17",
+        "nodemon": "^1.17.5"
+    }
+}
