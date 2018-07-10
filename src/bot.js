@@ -3,7 +3,6 @@ const C = require('./util/console.js');
 const config = require('./util/config.json');
 const util = require('./util/util.js');
 const client = require('./disc/Discord.js');
-const CommandTree = require('./reactions/Tree.js');
 const Router = require('./reactions/Router.js');
 
 db.p.then(() => {

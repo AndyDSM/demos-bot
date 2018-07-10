@@ -17,6 +17,7 @@
         "discord.js": "^11.3.2",
         "express": "^4.16.3",
         "mongoose": "^5.0.17",
-        "nodemon": "^1.17.5"
+        "nodemon": "^1.17.5",
+        "uuid": "^3.3.2"
     }
 }

@@ -8,7 +8,8 @@ r.cmdTree = new CommandTree([
     ['prefix', new(require('./native/PrefixChange.js'))()],
     ['ar-colour', new(require('./native/RoleAccessoryColour.js'))()],
     ['ar-name', new(require('./native/RoleAccessoryName.js'))()],
-    ['dank', new(require('./native/PollNew.js'))()],
+    //['dank', new(require('./native/PollNew.js'))()],
+    ['poll', new(require('./native/Poll/Poll.js'))()],
     ['ar', new(require('./native/RoleAccessory/RoleAccessory.js'))()],
 ]);
 
