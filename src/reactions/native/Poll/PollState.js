@@ -32,7 +32,7 @@ class PollState extends State {
         let that = this;
         require('../../../db/actions/PollAdd.js')(pollProps).then((props) => {
             that.props = props;
-            return msg.channel.send('', { embed: PollState.genEmbed(props) });
+            return msg.channel.send({ embed: PollState.genEmbed(props) });
         }).catch(C.logError).then((msg_) => {
             //console.log('hey');
             that.msg = msg_;

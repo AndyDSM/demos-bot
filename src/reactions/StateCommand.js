@@ -12,6 +12,14 @@ class CommandState extends ReactionState {
             return this.cmdTree.run(cmdData, msg);
         });
     }
+
+    query(func, i) {
+        let r = i;
+        for (let [name, cmd] of this.cmdTree.list[Symbol.iterator]()) {
+            r = cmd.query(func, r);
+        }
+        return r;
+    }
 }
 
 module.exports = CommandState;

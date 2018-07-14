@@ -12,6 +12,7 @@ class Router {
     static messageRoute(event, msg) {
         Prefix.get(msg.guild).then(prefix => {
             let route = new StateRouter();
+            //C.logDev(States.channels.getStateRouter(msg.channel.id).state());
             route.appendStart([
                 States.channels.getStateRouter(msg.channel.id).state(),
                 States.guilds.getStateRouter(msg.guild.id).state(),
@@ -48,6 +49,28 @@ class Router {
                 break;
         }
         return false;
+    }
+
+    static getMessageRoute(o) {
+        let route = new StateRouter();
+        let states = [];
+        if (o.user) states.push(States.users.getStateRouter(o.user).state());
+        if (o.channel) states.push(States.channels.getStateRouter(o.channel).state());
+        if (o.guild) states.push(States.guilds.getStateRouter(o.guild).state());
+        route.appendStart([
+            ...states,
+            DefaultCommandState,
+            InvalidCommandState
+        ]);
+        return route;
+    }
+
+    static getRoute(event, o) {
+        switch (event) {
+            case 'message':
+                return Router.getMessageRoute(o);
+        }
+        return new StateRouter();
     }
 
 }

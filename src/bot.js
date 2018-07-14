@@ -7,6 +7,12 @@ const Router = require('./reactions/Router.js');
 
 db.p.then(() => {
 
+    client.on('error', e => { C.logError('Error', e) });
+    client.on('disconnect', e => { C.logError('Disconnected', e) });
+    client.on('reconnecting', e => { C.logError('Reconnecting', e) });
+    client.on('warn', e => { C.logError('Warn', e) });
+    client.on('resume', e => { C.log('Resume Connection', e) });
+
     client.on('ready', () => {
         C.log(`Logged in as ${client.user.tag}`);
         //C.log(client.guilds.get('462055788790284319'));

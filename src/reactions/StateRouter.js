@@ -1,4 +1,5 @@
 const State = require('./State.js');
+const C = require('../util/console.js');
 
 class StateRouter {
     constructor() {
@@ -9,6 +10,7 @@ class StateRouter {
 
     appendStart(arr) {
         for (let i = 0; i < arr.length; i++) {
+            //C.logDev(i, arr[i]);
             arr[i].setList(this);
         }
         this.route.splice(0, 0, ...arr);
@@ -63,11 +65,23 @@ class StateRouter {
         })
     }
 
+    query(func, i) {
+        let r = (i !== undefined ? i : null);
+        for (let j = 0; j < this.route.length; j++) {
+            r = this.route[j].query(func, r);
+        }
+        return r;
+    }
+
     state() {
         let that = this;
-        return new State(function() {
+        let r = new State(function() {
             return that.run(...arguments);
         });
+        r.query = function(func, r) {
+            return that.query(func, r);
+        }
+        return r;
     }
 }
 

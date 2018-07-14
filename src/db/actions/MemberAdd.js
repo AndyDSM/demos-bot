@@ -4,11 +4,13 @@ const config = require('../../util/config.json');
 const mongoose = require('../DB.js').m;
 const util = require('../../util/util.js');
 
-module.exports = function(member, role) {
+module.exports = function(member, o_) {
     return new Promise(function(res, rej) {
 
         let memberProps = Object.assign({ id: member.id, g: member.guild.id });
-        if (role !== undefined) memberProps.r_ac = role.id;
+        let o = Object.assign({}, o);
+        if (o.role !== undefined) memberProps.r_ac = o.role.id;
+        if (o.ps !== undefined) memberProps.ps = o.ps;
 
         let memberItem = new Member(memberProps);
         memberItem.save(function(err) {
