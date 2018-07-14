@@ -1,6 +1,7 @@
 const Prefix = require('./Prefix.js');
 const Parser = require('./CommandParser.js');
 const Perms = require('./Perms.js');
+const config = require('../util/config.json');
 
 class CommandData {
     constructor(msg) {
@@ -33,12 +34,20 @@ class CommandData {
                 r.prefix = pr;
                 if (msg.content.startsWith(pr)) {
                     r.cmd = true;
-                    r.name = Parser.parseName(msg, prefix);
-                    r.full = msg.substring(prefix.length);
+                    r.name = Parser.parseName(msg.content, pr);
+                    r.full = msg.content.substring(pr.length);
                 }
                 res(r);
             }).catch(rej);
-            else res(r);
+            else {
+                r.prefix = config.prefixDefault;
+                if (msg.content.startsWith(r.prefix)) {
+                    r.cmd = true;
+                    r.name = Parser.parseName(msg.content, r.prefix);
+                    r.full = msg.content.substring(r.prefix.length);
+                }
+                res(r);
+            }
         });
     }
 }
