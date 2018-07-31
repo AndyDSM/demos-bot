@@ -18,42 +18,41 @@ RoleAccessoryRouter.stop((data, next) => {
 
 let NameColourRouter = new Router();
 
-NameColourRouter.stop(/^name$|^n$/, (data, next) => {
+NameColourRouter.stop(/^name$|^n$/, async (data, next) => {
+    let name, role;
     try {
-        let name = Parser.mergeArgs(data.cmdArgs.splice(2));
-        AccessoryRole.getByMember(data.message.member).then(role => {
-            role.setName(name).then(() => {
-                data.message.member.addRole(role).then(() => {
-                    Embed.sendSuccess(data.message.channel, "Role name changed to ' `" + name + "` '.");
-                }).catch();
-            }).catch(err => { Embed.sendError(data.message.channel, "Error connecting with database, please try again."); });
-        });
-    } catch (err) { Embed.sendError(data.message.channel, "Invalid command input."); }
-    next();
+        name = Parser.mergeArgs(data.cmdArgs.splice(2));
+        role = await AccessoryRole.getByMember(data.message.member);
+    } catch (err) { await Embed.sendError(data.message.channel, "Invalid command input."); next(); return; }
+    try {
+        await role.setName(name);
+        await data.message.member.addRole(role);
+        await Embed.sendSuccess(data.message.channel, "Role name changed to ' `" + name + "` '.");
+        next();
+    } catch (err) { C.logError(err); await Embed.sendError(data.message.channel, "Error connecting with database, please try again."); next(); }
 });
 
-NameColourRouter.stop(/^colour$|^color$|^clr$|^c$/, (data, next) => {
-    try {
-        let colour = tinycolor(Parser.mergeArgs(data.cmdArgs.splice(2)));
-        if (colour.isValid()) {
-            //C.logDev('hey');
-            AccessoryRole.getByMember(data.message.member).then(role => {
-                role.setColor('#' + colour.toHex()).then(() => {
-                    data.message.member.addRole(role).then(() => {
-                        data.message.channel.send('', {
-                            "embed": {
-                                "title": "Name colour changed to ' ` " + colour.getOriginalInput() + "` '.",
-                                "color": parseInt(colour.toHex(), 16)
-                            }
-                        }).catch(C.logError);
-                    }).catch();
-                }).catch(err => {
-                    Embed.sendError(data.message.channel, "Error connecting with Demos database, please try again.");
-                });
-            })
-        } else Embed.sendError(data.message.channel, "Invalid colour format.");
-    } catch (err) { Embed.sendError(data.message.channel, "Invalid command input."); }
-    next();
+NameColourRouter.stop(/^colour$|^color$|^clr$|^c$/, async (data, next) => {
+    let colour, role;
+
+    try { colour = tinycolor(Parser.mergeArgs(data.cmdArgs.splice(2))); } 
+    catch (err) { await Embed.sendError(data.message.channel, "Invalid command input."); next(); return; }
+
+    if (colour.isValid()) {
+        try { 
+            role = await AccessoryRole.getByMember(data.message.member); 
+            await role.setColor('#' + colour.toHex());
+            await data.message.member.addRole(role);
+            await data.message.channel.send('', {
+                "embed": {
+                    "title": "Name colour changed to ' ` " + colour.getOriginalInput() + "` '.",
+                    "color": parseInt(colour.toHex(), 16)
+                }
+            });
+            next();
+        }
+        catch (err) { await Embed.sendError(data.message.channel, "Error connecting with Demos database, please try again."); next(); }
+    } else { await Embed.sendError(data.message.channel, "Invalid colour format."); next(); }
 });
 
 NameColourRouter.keyer(data => data.cmdArgs[1]);
