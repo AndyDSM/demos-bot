@@ -82,12 +82,13 @@ class RoleAccessoryColourCommand extends Command {
         try {
             let colour = tinycolor(Parser.mergeArgs(args.splice(2)));
             if (colour.isValid()) {
+                //C.logDev('hey');
                 this.getRole(msg.member).then(role => {
                     role.setColor('#' + colour.toHex()).then(() => {
                         msg.member.addRole(role).then(() => {
                             msg.channel.send('', {
                                 "embed": {
-                                    "title": "Name colour changed to ' ` #" + colour.getOriginalInput() + "` '.",
+                                    "title": "Name colour changed to ' ` " + colour.getOriginalInput() + "` '.",
                                     "color": parseInt(colour.toHex(), 16)
                                 }
                             }).catch(C.logError);
@@ -123,6 +124,7 @@ class RoleAccessoryColourCommand extends Command {
     getRole(member) {
         return new Promise((res, rej) => {
             require('../../../db/actions/MemberGetRole.js')(member).then(roleID => {
+                //C.logDev('ho');
                 try {
                     //console.log('yup');
                     let role = member.guild.roles.get(roleID);
@@ -134,6 +136,7 @@ class RoleAccessoryColourCommand extends Command {
                     }).catch(err => { rej(err); });
                 }
             }).catch(err => {
+                //C.logDev('hoe');
                 if (err === util.error.memberNotFound) {
                     this.createMember(member).then(role => {
                         res(role);

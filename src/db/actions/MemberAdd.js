@@ -8,7 +8,7 @@ module.exports = function(member, o_) {
     return new Promise(function(res, rej) {
 
         let memberProps = Object.assign({ id: member.id, g: member.guild.id });
-        let o = Object.assign({}, o);
+        let o = Object.assign({}, o_);
         if (o.role !== undefined) memberProps.r_ac = o.role.id;
         if (o.ps !== undefined) memberProps.ps = o.ps;
 

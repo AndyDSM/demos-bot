@@ -13,3 +13,7 @@ exports.embed = {
     colourSuccess: 5237624,
     colourError: 16737123,
 }
+
+exports.symbol = {
+    skipRouter: Symbol('skipRouter'),
+}

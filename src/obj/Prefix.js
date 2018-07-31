@@ -1,5 +1,9 @@
 const util = require('../util/util.js');
 
+const GuildGetPrefix = require('../db/actions/GuildGetPrefix.js');
+const GuildAdd = require('../db/actions/GuildAdd.js');
+const GuildUpdatePrefix = require('../db/actions/GuildUpdatePrefix.js');
+
 class Prefix {
 
     static get(guild) {
@@ -8,13 +12,13 @@ class Prefix {
             if (prefix_ !== undefined) {
                 res(prefix_);
                 //C.logTest('found prefix through memory');
-            } else require('../db/actions/GuildGetPrefix.js')(guild.id).then((pr) => {
+            } else GuildGetPrefix(guild.id).then((pr) => {
                 Prefix.list.set(guild.id, pr);
                 res(pr);
                 return;
             }).catch(err => {
                 if (err === util.error.guildNotFound) {
-                    require('../db/actions/GuildAdd.js')(guild.id).then(guild => {
+                    GuildAdd(guild.id).then(guild => {
                         Prefix.list.set(guild.id, guild.pr);
                         res(guild.pr);
                         return;
@@ -32,13 +36,13 @@ class Prefix {
         return new Promise((res, rej) => {
 
             Prefix.list.set(guild.id, prefix_);
-            require('../db/actions/GuildUpdatePrefix.js')(guild.id, prefix_).then((pr) => {
+            GuildUpdatePrefix(guild.id, prefix_).then((pr) => {
                 Prefix.list.set(guild.id, pr);
                 res(pr);
                 return;
             }).catch(err => {
                 if (err === util.error.guildNotFound) {
-                    require('../db/actions/GuildAdd.js')(guild.id, prefix_).then(guild => {
+                    GuildAdd(guild.id, prefix_).then(guild => {
                         Prefix.list.set(guild.id, pr);
                         res(guild.pr);
                         return;

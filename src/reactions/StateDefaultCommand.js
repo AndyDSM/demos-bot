@@ -13,8 +13,10 @@ r.cmdTree = new CommandTree([
     ['get-perms', new(require('./native/Perms/Get.js'))()],
     ['add-perms', new(require('./native/Perms/Add.js'))()],
     ['remove-perms', new(require('./native/Perms/Remove.js'))()],
-    ['ar', new(require('./native/RoleAccessory/RoleAccessory.js'))()],
+    ['ar', new(require('./native/RoleAccessory/Command.js'))()],
+    ['role', new(require('./native/Role/Role.js'))()],
     ['colour', new(require('./native/Colour/Colour.js'))()],
+    ['admin', new(require('./native/Admin/Admin.js'))()],
 ]);
 
 module.exports = r;

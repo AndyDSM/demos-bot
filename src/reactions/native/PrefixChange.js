@@ -1,6 +1,6 @@
 const Command = require('../Command.js');
 //const Prefixes = require('../../data/Data.js').guilds.prefixes;
-const Prefix = require('../Prefix.js');
+const Prefix = require('../../obj/Prefix.js');
 const Parser = require('../CommandParser.js');
 const util = require('../../util/util.js');
 const C = require('../../util/console.js');

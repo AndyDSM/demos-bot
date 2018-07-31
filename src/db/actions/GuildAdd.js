@@ -4,10 +4,10 @@ const config = require('../../util/config.json');
 const mongoose = require('../DB.js').m;
 const util = require('../../util/util.js');
 
-module.exports = function(guild, prefix) {
+module.exports = function(guildID, prefix) {
     return new Promise(function(res, rej) {
 
-        let guildProps = Object.assign({ id: guild.id, pr: prefix || config.prefixDefault });
+        let guildProps = Object.assign({ id: guildID, pr: prefix || config.prefixDefault });
 
         let guildItem = new Guild(guildProps);
         guildItem.save(function(err) {
