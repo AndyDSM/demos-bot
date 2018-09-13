@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title= pageTitle
+  body
+    h1 Pug - node template engine
+    #container.col
+      if youAreUsingPug
+        p You are amazing
+      else
+        p Get on it!
+      each item in externaljs
+        script(type='text/javascript' src=item).
+      each item in localjs
+        script(type='text/javascript' src=('js/' + item + '.js')).

@@ -1,3 +1,4 @@
 @echo off
 
-node src/bot.js
+SET NODE_PATH=$HOME/src/lib
+node src/disc/bot.js
